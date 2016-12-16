@@ -13,6 +13,9 @@ public:
 	Vec2D();
 	Vec2D(double, double);
 	~Vec2D();
+
+private:
+	Coord position;
 };
 
 #endif

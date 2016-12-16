@@ -1,8 +1,8 @@
 #include "GameObject.h"
 
-
-GameObject::GameObject()
+GameObject::GameObject(const string& name) : kName(name)
 {
+
 }
 
 

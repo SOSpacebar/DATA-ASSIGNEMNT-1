@@ -1,9 +1,13 @@
 #include "Dweller.h"
 
-
-Dweller::Dweller()
+Dweller::Dweller() : GameObject(kName)
 {
-	//position = new Vec2D(0, 0);
+	this->position_ = Vec2D(0, 0);
+}
+
+Dweller::Dweller(const string& name, const int& specialValue) : GameObject(name), SPECIAL_(specialValue)
+{
+
 }
 
 
@@ -13,5 +17,5 @@ Dweller::~Dweller()
 
 void Dweller::setPosition(const Vec2D& coord)
 {
-	this->position = coord;
+	this->position_ = coord;
 }

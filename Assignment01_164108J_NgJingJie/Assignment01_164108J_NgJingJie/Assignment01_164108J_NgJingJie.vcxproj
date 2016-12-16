@@ -78,12 +78,18 @@
   <ItemGroup>
     <ClInclude Include="Dweller.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="Outfit.h" />
     <ClInclude Include="Vec2D.h" />
+    <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Dweller.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="Outfit.cpp" />
     <ClCompile Include="Vec2D.cpp" />
+    <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

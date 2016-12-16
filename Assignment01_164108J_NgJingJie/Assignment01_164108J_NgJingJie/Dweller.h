@@ -3,12 +3,14 @@
 
 #include "GameObject.h"
 #include "Vec2D.h"
+#include "Weapon.h"
+#include "Outfit.h"
 
 class Dweller :public GameObject
 {
 public:
 	Dweller();
-	Dweller(const string& name, const int& specialValue);
+	Dweller(const string&, const int& specialValue);
 	~Dweller();
 
 	const int getSPECIAL();
@@ -24,19 +26,20 @@ public:
 	void addRadAway(const int&);
 	void useStimpak();
 	void useRadAway();
-	//Outfit* assignOutfit(Outfit*);
-	//Weapon* assignWeapon(Weapon*);
+	Outfit* assignOutfit(Outfit*);
+	Weapon* assignWeapon(Weapon*);
 	bool isDead();
 
-private:
-	Vec2D position;
-	int SPECIAL;
-	int health;
-	int radiation;
-	int stimpak;
-	int radaway;
-	//Outfit* outfit;
-	//Weapon* weapon;
+protected:
+	Vec2D position_;
+	int SPECIAL_;
+	int health_;
+	int radiation_;
+	int stimpak_;
+	int radaway_;
+	Outfit* outfit_;
+	Weapon* weapon_;
+
 };
 
 #endif

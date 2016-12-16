@@ -8,16 +8,17 @@ using std::string;
 class GameObject
 {
 public:
-	GameObject();
-	GameObject(const string&);
 	~GameObject();
 
-	virtual string getName(void) = 0;
-	virtual int getCount() = 0;
+	virtual string getName(void);
+	static int getCount();
 
 private:
+	static int count;
+
+protected:
 	const string kName;
-	int count;
+	GameObject(const string&);
 };
 
 
