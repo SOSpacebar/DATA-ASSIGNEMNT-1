@@ -3,8 +3,6 @@
 Dweller::Dweller(const string& name, const int& specialValue) : GameObject(name), SPECIAL_(specialValue)
 {
 	this->position_ = Vec2D(0, 0);
-	this->SPECIAL_ = 0000000;
-
 	this->health_ = 100;
 	this->radiation_ = 0;
 	this->stimpak_ = 0;
@@ -25,6 +23,29 @@ void Dweller::setPosition(const Vec2D& coord)
 
 const int Dweller::getSPECIAL()
 {
+	if (outfit_ == 0)
+		return this->SPECIAL_;
+
+	int tempStorage;
+	int specialHolder = SPECIAL_;
+	int specialOutfitHolder = outfit_->getSPECIAL();
+	SPECIAL_ = 0;
+
+	for (unsigned i = 0; i < 7; i++)
+	{
+		tempStorage = specialHolder % 10 + specialOutfitHolder % 10;
+		specialHolder /= 10;
+		specialOutfitHolder /= 10;
+
+		if (tempStorage > 9)
+		{
+			tempStorage = 9;
+		}
+		
+		SPECIAL_ += tempStorage * pow(10, i);
+	}
+
+
 	return this->SPECIAL_;
 }
 
@@ -36,16 +57,33 @@ const Vec2D Dweller::getPosition()
 
 const int Dweller::getCurrentHealth()
 {
-	if (isDead())
+	if (health_ > 100)
 	{
-		//Die
+		health_ = 100;
 	}
 
-	return this->health_;
+	if (health_ < 0)
+	{
+		health_ = 0;
+	}
+
+	return this->health_ - radiation_;
 }
 
 const int Dweller::getCurrentRadDamage()
 {
+	if (radiation_ > 100)
+	{
+		radiation_ = 100;
+	}
+
+	if (radiation_ < 0)
+	{
+		radiation_ = 0;
+	}
+
+	this->health_ - radiation_;
+
 	return this->radiation_;
 }
 
@@ -61,7 +99,7 @@ const int Dweller::getAttackDamage()
 
 void Dweller::receiveHealthDamage(const int& dmg)
 {
-	health_ -= dmg;
+	health_ = health_ - radiation_ - dmg;
 }
 
 void Dweller::receiveRadDamage(const int& dmg)
@@ -99,6 +137,9 @@ void Dweller::useStimpak()
 		health_ += 20;
 		stimpak_--;
 	}
+
+	if (health_ > 100)
+		health_ = 100;
 }
 
 void Dweller::useRadAway()
@@ -107,6 +148,11 @@ void Dweller::useRadAway()
 	{
 		radiation_ -= 10;
 		radaway_--;
+	}
+
+	if (radiation_ < 0)
+	{
+		radiation_ = 0;
 	}
 }
 
