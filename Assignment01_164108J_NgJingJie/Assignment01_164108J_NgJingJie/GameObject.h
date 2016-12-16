@@ -8,7 +8,7 @@ using std::string;
 class GameObject
 {
 public:
-	~GameObject();
+	virtual ~GameObject();
 
 	string getName(void);
 	static int getCount();
