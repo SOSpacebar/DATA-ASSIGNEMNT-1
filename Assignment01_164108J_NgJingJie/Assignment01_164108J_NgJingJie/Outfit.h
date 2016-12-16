@@ -9,6 +9,7 @@ public:
 	Outfit(const string&, const int&, const int&);
 	~Outfit();
 
+	void receiveDamage(const int&);
 	const int getSPECIAL();
 
 protected:

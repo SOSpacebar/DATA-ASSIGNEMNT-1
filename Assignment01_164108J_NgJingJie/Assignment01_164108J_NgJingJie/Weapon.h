@@ -10,9 +10,10 @@ public:
 	~Weapon();
 
 	const int getAttackDmg();
+	void receiveDamage(const int&);
 
 protected:
-	const int kAttackDmg
+	const int kAttackDmg;
 };
 
 #endif

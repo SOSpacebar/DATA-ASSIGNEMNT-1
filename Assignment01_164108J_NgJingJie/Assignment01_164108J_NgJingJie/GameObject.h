@@ -10,11 +10,11 @@ class GameObject
 public:
 	~GameObject();
 
-	virtual string getName(void);
+	string getName(void);
 	static int getCount();
 
 private:
-	static int count;
+	static int count_;
 
 protected:
 	const string kName;
