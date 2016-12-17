@@ -14,5 +14,6 @@ Item::~Item()
 
 const int Item::getDurability()
 {
-	return durability_;
+	//returns the durability of the item.
+	return this->durability_;
 }

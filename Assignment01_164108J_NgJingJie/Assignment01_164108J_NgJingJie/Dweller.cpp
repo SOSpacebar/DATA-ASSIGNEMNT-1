@@ -18,14 +18,17 @@ Dweller::~Dweller()
 
 void Dweller::setPosition(const Vec2D& coord)
 {
+	//Set the position of the dweller.
 	this->position_ = coord;
 }
 
 const int Dweller::getSPECIAL()
 {
+	//Check is there a outfit equipped.
 	if (outfit_ == 0)
 		return this->SPECIAL_;
 
+	//If there outfit equipped, using digit extraction to add the values one by one base on the placement of both dweller SPECIAL and outfit SPECIAL.
 	int tempStorage;
 	int specialHolder = SPECIAL_;
 	int specialOutfitHolder = outfit_->getSPECIAL();
@@ -52,19 +55,21 @@ const int Dweller::getSPECIAL()
 
 const Vec2D Dweller::getPosition()
 {
+	//Return position value
 	return this->position_;
 }
 
 const int Dweller::getCurrentHealth()
 {
-	if (health_ > 100)
+	//Return health_ value and checks for above 100 or lower the 0
+	if (this->health_ > 100)
 	{
-		health_ = 100;
+		this->health_ = 100;
 	}
 
-	if (health_ < 0)
+	if (this->health_ < 0)
 	{
-		health_ = 0;
+		this->health_ = 0;
 	}
 
 	return this->health_ - radiation_;
@@ -72,24 +77,24 @@ const int Dweller::getCurrentHealth()
 
 const int Dweller::getCurrentRadDamage()
 {
-	if (radiation_ > 100)
+	//Return radition_ value and checks for above 100 or lower the 0
+	if (this->radiation_ > 100)
 	{
-		radiation_ = 100;
+		this->radiation_ = 100;
 	}
 
-	if (radiation_ < 0)
+	if (this->radiation_ < 0)
 	{
-		radiation_ = 0;
+		this->radiation_ = 0;
 	}
-
-	this->health_ - radiation_;
 
 	return this->radiation_;
 }
 
 const int Dweller::getAttackDamage()
 {
-	if (weapon_ != 0 && weapon_->getDurability() > 0)
+	//Check is there a weapon equipped if equip attack will use weapon damg else it just return 1
+	if (this->weapon_ != 0 && this->weapon_->getDurability() > 0)
 	{
 		return this->weapon_->getAttackDmg();
 	}
@@ -99,22 +104,26 @@ const int Dweller::getAttackDamage()
 
 void Dweller::receiveHealthDamage(const int& dmg)
 {
-	health_ = health_ - radiation_ - dmg;
+	//Reduce health base on damage and radiation
+	this->health_ = health_ - radiation_ - dmg;
 }
 
 void Dweller::receiveRadDamage(const int& dmg)
 {
-	radiation_ += dmg;
+	//Increase radiation base on damage and reduce health due to rediation.
+	this->radiation_ += dmg;
+	this->health_ -= radiation_;
 }
 
 void Dweller::receiveEquipmentDamage(const int& dmg)
 {
-	if (outfit_ != 0 && outfit_->getDurability() > 0)
+	//Check if there a outfit/weapon equipped or not damage. Outfit takes full damage while weapon takes half
+	if (this->outfit_ != 0 && this->outfit_->getDurability() > 0)
 	{
 		outfit_->receiveDamage(dmg);
 	}
 
-	if (weapon_ != 0 && weapon_->getDurability() > 0)
+	if (this->weapon_ != 0 && this->weapon_->getDurability() > 0)
 	{
 		weapon_->receiveDamage(dmg * 0.5f);
 	}
@@ -122,53 +131,66 @@ void Dweller::receiveEquipmentDamage(const int& dmg)
 
 void Dweller::addStimpak(const int& value)
 {
-	stimpak_ += value;
+	//Increase stimpak_ count base on value
+	this->stimpak_ += value;
 }
 
 void Dweller::addRadAway(const int& value)
 {
-	radaway_ += value;
+	//Increase radaway_ count base on value
+	this->radaway_ += value;
 }
 
 void Dweller::useStimpak()
 {
-	if (health_ < 100)
+	//Stimpak only heals 20
+	const int healAmount = 20;
+
+	//Check if dweller can us stimpak, also to heal dweller health value base on healAmount plus radiation.
+	if (this->health_ < 100)
 	{
-		health_ += 20;
-		stimpak_--;
+		this->health_ = (health_ - radiation_) + healAmount;
+		this->stimpak_--;
 	}
 
-	if (health_ > 100)
-		health_ = 100;
+	//Stop health value from going above 100.
+	if (this->health_ > 100)
+		this->health_ = 100;
 }
 
 void Dweller::useRadAway()
 {
-	if (radiation_ > 0)
+	//RadAway only heals 10
+	const int radHealAmount = 10;
+
+	//Check if dweller can use radAway
+	if (this->radiation_ > 0)
 	{
-		radiation_ -= 10;
-		radaway_--;
+		this->radiation_ -= radHealAmount;
+		this->radaway_--;
 	}
 
-	if (radiation_ < 0)
-	{
-		radiation_ = 0;
-	}
+	//Check the radiation amount not to go below 0
+	if (this->radiation_ < 0)
+		this->radiation_ = 0;
 }
 
 Outfit* Dweller::assignOutfit(Outfit* newOutfit)
 {
+	//Assign new outfit in to outfit_
 	return this->outfit_ = newOutfit;
 }
 
 Weapon* Dweller::assignWeapon(Weapon* newWeapon)
 {
+	//Assign new weapon in to weapon_
 	return this->weapon_ = newWeapon;
 }
 
 bool Dweller::isDead()
 {
-	if (health_ < 1)
+	//Checks if the object dead.
+	if (health_ < 1) 
 	{
 		return true;
 	}
